@@ -35,3 +35,5 @@ export default function PostsPage() {
 
   return <AllPost posts={DUMMY_POSTS} />;
 }
+
+export const revalidate = 60;
