@@ -1,5 +1,5 @@
 import React from "react";
-import AllPost from "@/components/posts/all-posts";
+import AllPost from "@/components/posts/all-posts.js";
 
 export default function PostsPage() {
   const DUMMY_POSTS = [

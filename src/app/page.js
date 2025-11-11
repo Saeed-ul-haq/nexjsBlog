@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import Hero from "@/components/home-page/hero";
 import FeaturedPosts from "@/components/home-page/featured-posts";
+import Hero from "@/components/home-page/hero";
 
 export default function HomePage() {
   const DUMMY_POSTS = [

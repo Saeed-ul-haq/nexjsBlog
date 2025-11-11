@@ -1,13 +1,13 @@
 import React from "react";
-import Hero from "@/components/home-page/hero";
 import FeaturedPosts from "@/components/home-page/featured-posts";
+import Hero from "@/components/home-page/hero";
 
 // Placeholder detail page. Replace with real post content as needed.
 export default function PostDetailPage({ params }) {
-  const { slug } = params;
+  const { postId } = params;
   const DUMMY_POST = [
     {
-      slug,
+      id: postId,
       title: "Post Detail",
       date: "2022-02-10",
       image: "getting-started-nextjs.png",

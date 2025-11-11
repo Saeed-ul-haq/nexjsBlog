@@ -1,5 +1,5 @@
-import React,{Fragment} from "react";
-import MainNavigation from './MainNavigation'
+import React, { Fragment } from "react";
+import MainNavigation from "./MainNavigation";
 export default function Layout(props) {
   return (
     <Fragment>
