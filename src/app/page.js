@@ -2,42 +2,23 @@ import React, { Fragment } from "react";
 import FeaturedPosts from "@/components/home-page/featured-posts";
 import Hero from "@/components/home-page/hero";
 
-export default function HomePage() {
-  const DUMMY_POSTS = [
-    {
-      slug: "getting-started-with-nextjs",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs2",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs3",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs4",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-  ];
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  let posts = [];
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts`, {
+      next: { revalidate: 60 },
+    });
+    posts = res.ok ? await res.json() : [];
+  } catch (error) {
+    console.error("Failed to load posts", error);
+  }
 
   return (
     <Fragment>
       <Hero />
-      <FeaturedPosts posts={DUMMY_POSTS} />
+      <FeaturedPosts posts={posts} />
     </Fragment>
   );
 }

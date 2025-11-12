@@ -1,39 +1,18 @@
 import React from "react";
 import AllPost from "@/components/posts/all-posts.js";
+import { headers } from "next/headers";
 
-export default function PostsPage() {
-  const DUMMY_POSTS = [
-    {
-      slug: "getting-started-with-nextjs",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs2",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs3",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-    {
-      slug: "getting-started-with-nextjs4",
-      title: "Getting Started with Next js",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "Next js is React framework for production",
-    },
-  ];
+export const dynamic = "force-dynamic";
 
-  return <AllPost posts={DUMMY_POSTS} />;
+export default async function PostsPage() {
+  let posts = [];
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts`, {
+      next: { revalidate: 600 },
+    });
+    posts = res.ok ? await res.json() : [];
+  } catch (error) {
+    console.error("Failed to load posts list", error);
+  }
+  return <AllPost posts={posts} />;
 }
-
-export const revalidate = 60;

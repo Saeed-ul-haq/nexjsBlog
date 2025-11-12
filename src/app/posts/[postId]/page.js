@@ -2,62 +2,44 @@ import React from "react";
 import FeaturedPosts from "@/components/home-page/featured-posts";
 import Hero from "@/components/home-page/hero";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
+export const dynamic = "force-dynamic";
 
-export const POSTS = [
-  {
-    slug: "getting-started-with-nextjs",
-    title: "Getting Started with Next js",
-  },
-  {
-    slug: "getting-started-with-nextjs2",
-    title: "Getting Started with Next js 2",
-  },
-  {
-    slug: "getting-started-with-nextjs3",
-    title: "Getting Started with Next js 3",
-  },
-  {
-    slug: "getting-started-with-nextjs4",
-    title: "Getting Started with Next js 4",
-  },
-];
-
-export async function generateStaticParams() {
-  return POSTS.map((p) => ({ postId: p.slug }));
+async function fetchPost(slug) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/${slug}`,
+      {
+        next: { revalidate: 60 },
+      }
+    );
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    console.error("Failed to fetch post", error);
+    return null;
+  }
 }
 
 export async function generateMetadata({ params }) {
   const { postId } = await params;
-  const post = POSTS.find((p) => p.slug === postId);
+  const post = await fetchPost(postId);
   if (!post) {
     return { title: "Post not found" };
-  } // --- FIX: Dynamic Base URL Calculation ---
+  }
 
-  const header = headers();
-  const host = header.get("host");
-  const protocol = host.startsWith("localhost") ? "http" : "https";
-  // 1. Construct the full dynamic URL string
-  const dynamicBaseUrlString = `${protocol}://${host}`;
-  //  // 2. Convert the string into a URL object for metadataBase
-
-  //  //    Using 'dynamicBaseUrlString' instead of 'dynamicBaseUrl' for clarity
-  const metadataBaseUrl = new URL(dynamicBaseUrlString);
-
-  // 3. Define the RELATIVE path to the Open Graph image
-
+  const metadataBaseUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL);
   const ogImagePath = `/posts/${postId}/opengraph-image`;
 
   return {
-    metadataBase: metadataBaseUrl, // 4. Set the base URL here
+    metadataBase: metadataBaseUrl,
     title: `${post.title} | Next Blog`,
     description: "Post details and content",
     openGraph: {
       title: post.title,
       type: "article",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/posts/${postId}`,
       images: [
         {
-          // 5. Use the RELATIVE path. Next.js combines metadataBase + ogImagePath.
           url: ogImagePath,
           width: 1200,
           height: 630,
@@ -66,32 +48,33 @@ export async function generateMetadata({ params }) {
       ],
     },
     twitter: {
-      card: "summary_large_image", // 6. Use the RELATIVE path here too.
+      card: "summary_large_image",
       images: [ogImagePath],
     },
   };
 }
 
-// Placeholder detail page. Replace with real post content as needed.
-export default function PostDetailPage({ params }) {
-  const { postId } = params;
-  const exists = POSTS.some((p) => p.slug === postId);
-  if (!exists) {
+export default async function PostDetailPage({ params }) {
+  const { postId } = await params;
+  const post = await fetchPost(postId);
+  if (!post) {
     return notFound();
   }
-  const DUMMY_POST = [
+
+  const DETAIL_LIST = [
     {
-      id: postId,
-      title: "Post Detail",
-      date: "2022-02-10",
-      image: "getting-started-nextjs.png",
-      excerpt: "This is a placeholder for post details.",
+      id: post.slug,
+      title: post.title,
+      date: post.date,
+      image: post.image,
+      excerpt: post.excerpt,
     },
   ];
+
   return (
     <>
       <Hero />
-      <FeaturedPosts posts={DUMMY_POST} />
+      <FeaturedPosts posts={DETAIL_LIST} />
     </>
   );
 }
