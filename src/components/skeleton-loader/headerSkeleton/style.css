@@ -1,0 +1,23 @@
+.headerWrapper {
+    width: 100vw;
+    height: 6rem;
+    background-color: var(--color-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    border: 1px solid rgba(255, 255, 255, 0.5)
+  }
+  
+  .headerWrapper  .logoWrapper {
+    height: 47px;
+    width: 236px;
+  }
+  
+  .headerWrapper > .linkWrapper {
+    height: 24px;
+    width: 51px;
+    margin: 0rem 1rem;
+  }
+  
+  

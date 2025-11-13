@@ -3,7 +3,7 @@
     min-height: 100vh;
     /* background: linear-gradient(to bottom right, #f3f3f3, #f3f3f3, #f3f3f3); */
     display: flex;
-    background-color: #f3f3f3;
+    background-color: #ffffff;
     align-items: center;
     justify-content: center;
     padding: 2rem;
@@ -51,17 +51,18 @@
     bottom: 0;
     left: 0;
     transform: translateX(-100%);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(75, 85, 99, 0.5),
-      transparent
-    );
-    animation: shimmer 2s infinite;
+    background-color: #0000001c;
+    animation: shimmer 2s ease-in-out 0.5s infinite
   }
   
   @keyframes shimmer {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
     100% {
-      transform: translateX(100%);
+      opacity: 1;
     }
   }

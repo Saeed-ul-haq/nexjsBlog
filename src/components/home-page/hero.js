@@ -1,10 +1,8 @@
 import React from "react";
 import classes from "./hero.module.css";
 import Image from "next/image";
-import { sleep } from "../../lib/sleep";
 
 export default async function Hero() {
-  await sleep(1000000);
   return (
     <section className={classes.hero}>
       <div className={classes.image}>

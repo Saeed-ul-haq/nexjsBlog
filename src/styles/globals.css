@@ -15,6 +15,7 @@ body {
   --color-grey-700: hsl(265, 4%, 31%);
   --color-grey-800: hsl(276, 5%, 20%);
   --color-grey-900: hsl(280, 5%, 13%);
+  --color-white: #ffffff
 
 
   --color-primary-50: #c8b3ce;
