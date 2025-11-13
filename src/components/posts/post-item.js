@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./post-item.module.css";
 export default function PostItem(props) {
   const {
-    post: { title, slug, image, excerpt, date },
+    post: { title, id: slug, image = "getting-started-nextjs.png", body, date },
   } = props;
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
@@ -28,7 +28,7 @@ export default function PostItem(props) {
         <div className={classes.content}>
           <h3>{title}</h3>
           <time>{formattedDate}</time>
-          <p>{excerpt}</p>
+          <p>{body}</p>
         </div>
       </Link>
     </li>

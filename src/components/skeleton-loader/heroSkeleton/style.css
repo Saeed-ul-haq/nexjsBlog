@@ -1,7 +1,6 @@
 /* src/components/skeleton-loader/heroSkeleton.css */
 .skeleton-container {
     min-height: 100vh;
-    /* background: linear-gradient(to bottom right, #f3f3f3, #f3f3f3, #f3f3f3); */
     display: flex;
     background-color: #ffffff;
     align-items: center;
